@@ -1,3 +1,5 @@
+require 'csv'
+
 namespace :import do
   desc "TODO"
   task merchants: :environment do
