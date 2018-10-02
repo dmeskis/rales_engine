@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :transaction do
-    invoice { nil }
-    credit_card_number { 1 }
-    credit_card_expiration_date { "2018-10-02 11:35:49" }
-    result { "MyString" }
+    invoice
+    credit_card_number { Faker::Number.number(16) }
+    credit_card_expiration_date { Faker::Time.between(DateTime.now - 1, DateTime.now) }
+    result { ["success", "failed"].sample }
   end
 end
