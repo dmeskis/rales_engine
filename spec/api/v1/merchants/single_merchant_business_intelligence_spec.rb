@@ -20,7 +20,7 @@ describe 'merchant api' do
 
       revenue = JSON.parse(response.body)
 
-      expect(revenue).to eq(total_revenue)
+      expect(revenue).to eq(Merchant.total_revenue(merchant.id))
 
     end
   end
