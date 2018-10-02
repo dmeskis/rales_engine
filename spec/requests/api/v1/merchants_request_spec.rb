@@ -14,14 +14,13 @@ describe 'merchants API' do
 
   end
   it 'can show a single merchant' do
-    id = create(:merchant).id
+    merchant = create(:merchant)
 
-    get "/api/v1/merchants/#{id}"
+    get "/api/v1/merchants/#{merchant.id}"
 
     expect(response).to be_successful
 
     merchant = JSON.parse(response.body)
-
-    expect(merchant.count).to eq(1)
+    expect(Merchant.count).to eq(1)
   end
 end
