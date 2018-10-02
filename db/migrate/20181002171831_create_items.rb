@@ -4,7 +4,7 @@ class CreateItems < ActiveRecord::Migration[5.2]
       t.string :name
       t.text :description
       t.bigint :unit_price
-      t.integer :merchant_id
+      t.references :merchant_id
 
       t.timestamps
     end
