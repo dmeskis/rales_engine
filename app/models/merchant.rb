@@ -6,7 +6,7 @@ class Merchant < ApplicationRecord
   has_many :invoice_items, through: :invoices
 
   def self.total_revenue(merchant_id)
-    total =  joins(:invoices, invoices: [:invoice_items, :transactions])
+    total =  joins(invoices: [:invoice_items, :transactions])
               .where(transactions: {result: 'success' })
               .where("merchants.id = ?", merchant_id)
               .sum("invoice_items.quantity * invoice_items.unit_price")
