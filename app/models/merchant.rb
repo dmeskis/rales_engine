@@ -13,4 +13,13 @@ class Merchant < ApplicationRecord
 
     total.to_i
   end
+
+  def self.favorite_customer(merchant_id)
+    Customer.joins(:invoices, :transactions, :merchants)
+    .where("merchants.id = ? AND transactions.result = ?", merchant_id, 'success')
+    .group("customers.id")
+    .order("COUNT(transactions.id) DESC")
+    .limit(1)
+    .first
+  end
 end

@@ -15,8 +15,8 @@ describe 'merchant api' do
     @invoice_item_2 = create(:invoice_item, item: @item_2, invoice: @invoice_2)
     @invoice_item_2 = create(:invoice_item, item: @item_3, invoice: @invoice_3)
     @transaction_1 = create(:transaction, invoice: @invoice_1, result: "success")
-    @transaction_2 = create(:transaction, invoice: @invoice_2, result: "failed")
-    @transaction_3 = create(:transaction, invoice: @invoice_3, result: "success")
+    @transaction_2 = create(:transaction, invoice: @invoice_2, result: "success")
+    @transaction_3 = create(:transaction, invoice: @invoice_3, result: "failed")
   end
   describe 'for a single merchant' do
     it 'returns total revenue for a single merchant' do
@@ -30,7 +30,13 @@ describe 'merchant api' do
 
     end
     it 'returns the customer who has conducted the most total number of successful transactions' do
+      get "/api/v1/merchants/#{@merchant.id}/favorite_customer"
 
+      expect(response).to be_successful
+
+      favorite_customer = @customer_1
+
+      expect(favorite_customer).to eq(Merchant.favorite_customer(@merchant.id))
     end
   end
 end
