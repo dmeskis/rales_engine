@@ -120,17 +120,17 @@ describe 'invoices API' do
   end
   xit 'allows a user to find all invoices with a multi finder' do
     invoices = create_list(:invoice, 3)
-    duplicate_invoice = create(:invoice, name: invoices.first.name)
+    duplicate_invoice = create(:invoice)
 
     get "/api/v1/invoices/find_all?#{invoices.first.id}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
-    expect(body["id"]).to eq(invoice.first.id)
+    expect(body["status"]).to eq(invoice.first.status)
 
     get "/api/v1/invoices/find_all?#{invoice.name}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
     expect(body.count).to eq(2)
-    expect(body["id"]).to eq(duplicate_invoice.id)
+    expect(body["status"]).to eq(duplicate_invoice.status)
   end
 end
