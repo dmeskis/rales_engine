@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       # Transaction Endpoints
       get 'invoices/:id/transactions', to: 'invoices/transactions#index'
       get 'invoices/:id/invoice_items', to: 'invoices/invoice_items#index'
+      get 'invoices/:id/items', to: 'invoices/items#index'
     end
   end
 end
