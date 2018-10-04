@@ -5,7 +5,6 @@ Rails.application.routes.draw do
       resources :customers, only: [:index, :show]
       resources :invoice_items, only: [:index, :show]
       resources :invoices, only: [:index, :show]
-      resources :items, only: [:index, :show]
       resources :transactions, only: [:index, :show]
       # Merchant Endpoints
       get 'merchants/find', to: 'merchants/search#show'
@@ -34,6 +33,9 @@ Rails.application.routes.draw do
       # Items Endpoints
       get 'items/:id/invoice_items', to: 'items/invoice_items#index'
       get 'items/:id/merchant', to: 'items/merchants#show'
+      # Items Business Intelligence
+      get 'items/most_revenue', to: 'items/revenue#index'
+      resources :items, only: [:index, :show]
 
       # Transactions Endpoints
       get 'transactions/:id/invoice', to: 'transactions/invoices#show'

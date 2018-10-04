@@ -11,4 +11,9 @@ RSpec.describe Item, type: :model do
     it {should validate_presence_of(:unit_price)}
     it {should validate_presence_of(:merchant_id)}
   end
+  describe 'methods' do
+    it 'top_revenue_items' do
+      
+    end
+  end
 end
