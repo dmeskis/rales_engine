@@ -57,7 +57,7 @@ describe 'merchants API' do
   end
   it 'allows a user to find a merchant with a single finder' do
     create_list(:merchant, 2)
-    merchant = create(:merchant, created_at: "2017-01-01 00:00:00", updated_at: "2017-01-02 00:00:00")
+    merchant = create(:merchant)
 
     get "/api/v1/merchants/find?id=#{merchant.id}"
     expect(response).to be_successful

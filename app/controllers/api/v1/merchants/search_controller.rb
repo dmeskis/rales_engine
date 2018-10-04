@@ -2,7 +2,7 @@ class Api::V1::Merchants::SearchController < ApplicationController
   include MerchantParams
 
   def show
-    render json: Merchant.search_single(merchant_params)
+    render json: Merchant.single_finder(merchant_params)
   end
 
   def index
