@@ -40,10 +40,14 @@ Rails.application.routes.draw do
       resources :items, only: [:index, :show]
 
       # Transactions Endpoints
+      get 'transactions/find', to: 'transactions/search#show'
+      get 'transactions/find_all', to: 'transactions/search#index'
       get 'transactions/:id/invoice', to: 'transactions/invoices#show'
       resources :transactions, only: [:index, :show]
 
       # Customer Endpoints
+      get 'customers/find', to: 'customers/search#show'
+      get 'customers/find_all', to: 'customers/search#index'
       get 'customers/:id/invoices', to: 'customers/invoices#index'
       get 'customers/:id/transactions', to: 'customers/transactions#index'
       resources :customers, only: [:index, :show]
