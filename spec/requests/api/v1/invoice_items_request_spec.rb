@@ -23,5 +23,15 @@ describe 'invoice items API' do
     expect(InvoiceItem.count).to eq(1)
     expect(body["invoice_id"]).to eq(invoice_item.invoice_id)
   end
+  it 'sends associated invoice' do
+    invoice = create(:invoice)
+    invoice_item = create(:invoice_item, invoice: invoice)
 
+    get "/api/v1/invoice_items/#{invoice_item.id}/invoice"
+
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["status"]).to eq(invoice.status)
+  end
 end
