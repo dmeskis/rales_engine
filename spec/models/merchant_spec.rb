@@ -27,13 +27,13 @@ RSpec.describe Merchant, type: :model do
       @transaction_2 = create(:transaction, invoice: @invoice_3, result: "success")
     end
     it 'total_revenue' do
-      expect(Merchant.total_revenue({"id" => @merchant.id})).to eq(@invoice_item_1.unit_price * @invoice_item_1.quantity +
-                                                         @invoice_item_3.unit_price * @invoice_item_3.quantity)
+      expect(Merchant.total_revenue({"id" => @merchant.id})).to eq({"revenue" => (@invoice_item_1.unit_price * @invoice_item_1.quantity +
+                                                         @invoice_item_3.unit_price * @invoice_item_3.quantity).to_f })
     end
     it 'total_revenue_by_date' do
       expect(Merchant.total_revenue_by_date({"id" => @merchant.id,
                                              "date" => @invoice_1.created_at}))
-                                             .to eq(@invoice_item_1.unit_price * @invoice_item_1.quantity)
+                                             .to eq({"revenue" => (@invoice_item_1.unit_price * @invoice_item_1.quantity).to_f })
     end
     it 'favorite_customer' do
       expect(Merchant.favorite_customer({"id" => @merchant.id})).to eq(@customer_1)

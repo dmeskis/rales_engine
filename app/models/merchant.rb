@@ -11,7 +11,7 @@ class Merchant < ApplicationRecord
               .where("merchants.id = ?", params["id"])
               .sum("invoice_items.quantity * invoice_items.unit_price")
 
-    total.to_f.round(2)
+    {"revenue" => total.to_f}
   end
 
   def self.total_revenue_by_date(params)
@@ -21,7 +21,7 @@ class Merchant < ApplicationRecord
             .where("merchants.id = ?", params["id"])
             .sum("invoice_items.quantity * invoice_items.unit_price")
 
-    total.to_f.round(2)
+    {"revenue" => total.to_f}
   end
 
   def self.favorite_customer(params)
