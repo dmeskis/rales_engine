@@ -23,5 +23,17 @@ describe 'customers API' do
     expect(Customer.count).to eq(1)
     expect(body["first_name"]).to eq(customer.first_name)
   end
+  it 'sends a collection of associated invoices' do
+    customer = create(:customer)
+    invoice_1 = create(:invoice, customer: customer)
+    invoice_2 = create(:invoice, customer: customer)
 
+    get "/api/v1/customers/#{customer.id}/invoices"
+
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body.first["status"]).to eq(invoice_1.status)
+    expect(body.last["status"]).to eq(invoice_2.status)
+  end
 end
