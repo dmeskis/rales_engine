@@ -46,4 +46,47 @@ describe 'items API' do
     body = JSON.parse(response.body)
     expect(body["name"]).to eq(item.merchant.name)
   end
+  it 'allows a user to find an item with a single finder' do
+    create_list(:item, 2)
+    item = create(:item)
+
+    get "/api/v1/items/find?id=#{item.id}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(item.name)
+
+    get "/api/v1/items/find?name=#{item.name}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(item.name)
+
+    get "/api/v1/items/find?created_at=#{item.created_at}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(item.name)
+
+    get "/api/v1/items/find?updated_at=#{item.updated_at}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(item.name)
+  end
+  xit 'allows a user to find all items with a multi finder' do
+    items = create_list(:item, 3)
+    duplicate_item = create(:item, name: items.first.name)
+
+    get "/api/v1/items/find_all?#{items.first.id}"
+    expect(response).to be_successful
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(item.first.name)
+
+    get "/api/v1/items/find_all?#{item.name}"
+    expect(response).to be_successful
+    body = JSON.parse(response.body)
+    expect(body.count).to eq(2)
+    expect(body["name"]).to eq(duplicate_item.name)
+  end
 end

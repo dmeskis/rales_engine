@@ -2,10 +2,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :customers, only: [:index, :show]
-      resources :invoice_items, only: [:index, :show]
-      resources :invoices, only: [:index, :show]
-      resources :transactions, only: [:index, :show]
       # Merchant Endpoints
       get 'merchants/find', to: 'merchants/search#show'
       get 'merchants/find_all', to: 'merchants/search#index'
@@ -19,18 +15,22 @@ Rails.application.routes.draw do
 
 
 
-      # Transaction Endpoints
+      # Invoice Endpoints
+      get 'invoices/find', to: 'invoices/search#show'
+      get 'invoices/find_all', to: 'invoices/search#index'
       get 'invoices/:id/transactions', to: 'invoices/transactions#index'
       get 'invoices/:id/invoice_items', to: 'invoices/invoice_items#index'
       get 'invoices/:id/items', to: 'invoices/items#index'
       get 'invoices/:id/customer', to: 'invoices/customers#show'
       get 'invoices/:id/merchant', to: 'invoices/merchants#show'
-
+      resources :invoices, only: [:index, :show]
       # Invoice Items Endpoints
       get 'invoice_items/:id/invoice', to: 'invoice_items/invoices#show'
       get 'invoice_items/:id/item', to: 'invoice_items/items#show'
-
+      resources :invoice_items, only: [:index, :show]
       # Items Endpoints
+      get 'items/find', to: 'items/search#show'
+      get 'items/find_all', to: 'items/search#index'
       get 'items/:id/invoice_items', to: 'items/invoice_items#index'
       get 'items/:id/merchant', to: 'items/merchants#show'
       # Items Business Intelligence
@@ -39,10 +39,12 @@ Rails.application.routes.draw do
 
       # Transactions Endpoints
       get 'transactions/:id/invoice', to: 'transactions/invoices#show'
+      resources :transactions, only: [:index, :show]
 
       # Customer Endpoints
       get 'customers/:id/invoices', to: 'customers/invoices#index'
       get 'customers/:id/transactions', to: 'customers/transactions#index'
+      resources :customers, only: [:index, :show]
     end
   end
 end
