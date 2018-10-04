@@ -19,12 +19,15 @@ Rails.application.routes.draw do
       get 'invoices/:id/transactions', to: 'invoices/transactions#index'
       get 'invoices/:id/invoice_items', to: 'invoices/invoice_items#index'
       get 'invoices/:id/items', to: 'invoices/items#index'
-      get 'invoices/:id/customer', to: 'invoices/customer#show'
-      get 'invoices/:id/merchant', to: 'invoices/merchant#show'
+      get 'invoices/:id/customer', to: 'invoices/customers#show'
+      get 'invoices/:id/merchant', to: 'invoices/merchants#show'
 
       # Invoice Items Endpoints
-      get 'invoice_items/:id/invoice', to: 'invoice_items/invoice#show'
-      get 'invoice_items/:id/item', to: 'invoice_items/item#show'
+      get 'invoice_items/:id/invoice', to: 'invoice_items/invoices#show'
+      get 'invoice_items/:id/item', to: 'invoice_items/items#show'
+
+      # Items Endpoints
+      get 'items/:id/invoice_items', to: 'items/invoice_items#index'
     end
   end
 end
