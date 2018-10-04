@@ -55,7 +55,7 @@ describe 'merchants API' do
     expect(body.last["merchant_id"]).to eq(merchant.id)
     expect(body.last["customer_id"]).to eq(customer.id)
   end
-  xit 'allows a user to find a merchant with a single finder' do
+  it 'allows a user to find a merchant with a single finder' do
     create_list(:merchant, 2)
     merchant = create(:merchant, created_at: "2012-03-27 14:53:59 UTC")
 
@@ -75,14 +75,13 @@ describe 'merchants API' do
     expect(response).to be_successful
 
     body = JSON.parse(response.body)
-    binding.pry
-    expect(body["created_at"]).to eq(merchant.created_at)
+    expect(body["name"]).to eq(merchant.name)
 
     get "/api/v1/merchants/find?updated_at=#{merchant.updated_at}"
     expect(response).to be_successful
 
     body = JSON.parse(response.body)
-    expect(body["updated_at"]).to eq(merchant.updated_at)
+    expect(body["name"]).to eq(merchant.name)
   end
   xit 'allows a user to find all merchants with a multi finder' do
     merchants = create_list(:merchant, 3)
