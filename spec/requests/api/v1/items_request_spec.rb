@@ -36,4 +36,14 @@ describe 'items API' do
     expect(body.first["quantity"]).to eq(invoice_item_1.quantity)
     expect(body.last["quantity"]).to eq(invoice_item_2.quantity)
   end
+  it 'sends the associated merchant' do
+    item = create(:item)
+
+    get "/api/v1/items/#{item.id}/merchant"
+
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(item.merchant.name)
+  end
 end
