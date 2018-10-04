@@ -13,7 +13,7 @@ describe 'merchants API' do
     expect(merchants.count).to eq(3)
 
   end
-  it 'can show a single merchant' do
+  it 'sends a single merchant' do
     merchant = create(:merchant)
 
     get "/api/v1/merchants/#{merchant.id}"
@@ -22,9 +22,9 @@ describe 'merchants API' do
 
     body = JSON.parse(response.body)
     expect(Merchant.count).to eq(1)
-    expect(body["name"]).to eq(Merchant.first.name)
+    expect(body["name"]).to eq(merchant.name)
   end
-  it 'can show a collection of items associated with that merchant' do
+  it 'sends a collection of items associated with that merchant' do
     merchant = create(:merchant)
     item_1 = create(:item, merchant: merchant)
     item_2 = create(:item, merchant: merchant)
@@ -39,7 +39,7 @@ describe 'merchants API' do
     expect(body.last["name"]).to eq(item_2.name)
     expect(body.last["description"]).to eq(item_2.description)
   end
-  it 'can show a collection of invoices associated with that merchant' do
+  it 'sends a collection of invoices associated with that merchant' do
     merchant = create(:merchant)
     customer = create(:customer)
     invoice_1 = create(:invoice, merchant: merchant, customer: customer)
