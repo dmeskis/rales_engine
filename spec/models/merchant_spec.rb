@@ -31,7 +31,6 @@ RSpec.describe Merchant, type: :model do
                                                          @invoice_item_3.unit_price * @invoice_item_3.quantity)
     end
     it 'total_revenue_by_date' do
-      binding.pry
       expect(Merchant.total_revenue_by_date({"id" => @merchant.id,
                                              "date" => @invoice_1.created_at}))
                                              .to eq(@invoice_item_1.unit_price * @invoice_item_1.quantity)
