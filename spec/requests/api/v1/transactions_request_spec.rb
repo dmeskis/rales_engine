@@ -23,5 +23,14 @@ describe 'transactions API' do
     expect(Transaction.count).to eq(1)
     expect(body["credit_card_number"]).to eq(transaction.credit_card_number)
   end
+  it 'sends the associated invoice' do
+    transaction = create(:transaction)
 
+    get "/api/v1/transactions/#{transaction.id}/invoice"
+
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["status"]).to eq(transaction.invoice.status)
+  end
 end
