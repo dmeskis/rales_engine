@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       # Merchant Endpoints
       get 'merchants/find', to: 'merchants/search#show'
       get 'merchants/find_all', to: 'merchants/search#index'
+      get 'merchants/random', to: 'merchants/random#show'
       get 'merchants/:id/items', to: 'merchants/items#index'
       get 'merchants/:id/invoices', to: 'merchants/invoices#index'
       resources :merchants, only: [:index, :show]

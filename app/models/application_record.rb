@@ -10,4 +10,8 @@ class ApplicationRecord < ActiveRecord::Base
       find_by(params)
     end
   end
+
+  def self.random_resource
+    order("RANDOM()").limit(1).first
+  end
 end
