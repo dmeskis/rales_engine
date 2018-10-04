@@ -36,4 +36,19 @@ describe 'customers API' do
     expect(body.first["status"]).to eq(invoice_1.status)
     expect(body.last["status"]).to eq(invoice_2.status)
   end
+  it 'sends a collection of associated transactions' do
+    customer = create(:customer)
+    invoice_1 = create(:invoice, customer: customer)
+    invoice_2 = create(:invoice, customer: customer)
+    transaction_1 = create(:transaction, invoice: invoice_1)
+    transaction_2 = create(:transaction, invoice: invoice_2)
+
+    get "/api/v1/customers/#{customer.id}/transactions"
+
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body.first["credit_card_number"]).to eq(transaction_1.credit_card_number)
+    expect(body.last["credit_card_number"]).to eq(transaction_2.credit_card_number)
+  end
 end

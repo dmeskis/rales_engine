@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
       # Customer Endpoints
       get 'customers/:id/invoices', to: 'customers/invoices#index'
+      get 'customers/:id/transactions', to: 'customers/transactions#index'
     end
   end
 end
