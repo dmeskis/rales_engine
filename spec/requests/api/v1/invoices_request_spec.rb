@@ -38,4 +38,19 @@ describe 'invoices API' do
     expect(body.first["credit_card_number"]).to eq(transaction_1.credit_card_number)
     expect(body.last["credit_card_number"]).to eq(transaction_2.credit_card_number)
   end
+  it 'sends a collection of associated invoice_items' do
+    invoice = create(:invoice)
+    invoice_item_1 = create(:invoice_item, invoice: invoice)
+    invoice_item_2 = create(:invoice_item, invoice: invoice)
+
+    get "/api/v1/invoices/#{invoice.id}/invoice_items"
+
+    expect(response).to be_successful
+
+    body= JSON.parse(response.body)
+    expect(body.count).to eq(2)
+
+    expect(body.first["quantity"]).to eq(invoice_item_1.quantity)
+    expect(body.last["quantity"]).to eq(invoice_item_2.quantity)
+  end
 end
