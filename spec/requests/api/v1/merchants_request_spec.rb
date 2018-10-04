@@ -56,7 +56,7 @@ describe 'merchants API' do
     expect(body.last["customer_id"]).to eq(customer.id)
   end
   it 'allows a user to find a merchant with a single finder' do
-    merchant = create(:merchant)
+    merchant = create(:merchant, created_at: "2017-01-01 00:00:00")
 
     get "/api/v1/merchants/find?#{merchant.id}"
     expect(response).to be_successful
@@ -70,10 +70,31 @@ describe 'merchants API' do
     body = JSON.parse(response.body)
     expect(body["name"]).to eq(merchant.name)
 
-    get "/api/v1/merchants/find?#{merchant.name}"
+    get "/api/v1/merchants/find?#{merchant.created_at}"
     expect(response).to be_successful
 
     body = JSON.parse(response.body)
-    expect(body["name"]).to eq(merchant.name)
+    expect(body["created_at"]).to eq(merchant.created_at)
+
+    get "/api/v1/merchants/find?#{merchant.updated_at}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["updated_at"]).to eq(merchant.updated_at)
+  end
+  xit 'allows a user to find all merchants with a multi finder' do
+    merchants = create_list(:merchant, 3)
+    duplicate_merchant = create(:merchant, name: merchants.first.name)
+
+    get "/api/v1/merchants/find_all?#{merchants.first.id}"
+    expect(response).to be_successful
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(merchant.first.name)
+
+    get "/api/v1/merchants/find_all?#{merchant.name}"
+    expect(response).to be_successful
+    body = JSON.parse(response.body)
+    expect(body.count).to eq(2)
+    expect(body["name"]).to eq(duplicate_merchant.name)
   end
 end
