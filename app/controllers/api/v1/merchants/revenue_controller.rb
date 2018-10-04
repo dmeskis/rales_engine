@@ -1,8 +1,12 @@
 class Api::V1::Merchants::RevenueController < ApplicationController
+  include MerchantParams
 
   def show
-    merchant = Merchant.find(params[:id])
-    render json: Merchant.total_revenue(merchant.id)
+    if merchant_params[:date]
+      render json: Merchant.total_revenue_by_date(merchant_params)
+    else
+      render json: Merchant.total_revenue(merchant_params)
+    end
   end
 
 end
