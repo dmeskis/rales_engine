@@ -14,6 +14,16 @@ class Merchant < ApplicationRecord
     total.to_i
   end
 
+  def self.total_revenue_by_date(params)
+    total = joins(invoices: [:invoice_items, :transactions])
+            .where(transactions: {result: 'success' })
+            .where("invoices.created_at = ?", params["created_at"])
+            .where("merchants.id = ?", params["merchant_id"])
+            .sum("invoice_items.quantity * invoice_items.unit_price")
+
+    total.to_i
+  end
+
   def self.favorite_customer(merchant_id)
     Customer.joins(:invoices, :transactions, :merchants)
     .where("merchants.id = ? AND transactions.result = ?", merchant_id, 'success')

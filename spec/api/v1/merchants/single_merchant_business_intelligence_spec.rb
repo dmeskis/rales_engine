@@ -20,6 +20,7 @@ describe 'merchant api' do
   end
   describe 'for a single merchant' do
     it 'returns total revenue for a single merchant' do
+
       get "/api/v1/merchants/#{@merchant.id}/revenue"
 
       expect(response).to be_successful
@@ -30,14 +31,14 @@ describe 'merchant api' do
 
     end
     it 'returns the total revenue for a specific invoice date' do
+
       get "/api/v1/merchants/#{@merchant.id}/revenue?date=#{@invoice_1.created_at}"
 
       expect(response).to be_successful
 
       revenue = JSON.parse(response.body)
-
-      expect(revenue).to eq(Merchant.total_revenue_by_date(@merchant.id))
-
+      expect(revenue).to eq(Merchant.total_revenue_by_date({"created_at" => @invoice_1.created_at,
+                                                            "merchant_id" => @merchant.id}))
     end
     it 'returns the customer who has conducted the most total number of successful transactions' do
       get "/api/v1/merchants/#{@merchant.id}/favorite_customer"
