@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
       # Invoice Items Endpoints
       get 'invoice_items/:id/invoice', to: 'invoice_items/invoice#show'
+      get 'invoice_items/:id/item', to: 'invoice_items/item#show'
     end
   end
 end
