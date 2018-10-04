@@ -55,4 +55,56 @@ describe 'merchants API' do
     expect(body.last["merchant_id"]).to eq(merchant.id)
     expect(body.last["customer_id"]).to eq(customer.id)
   end
+  xit 'allows a user to find a merchant with a single finder' do
+    create_list(:merchant, 2)
+    merchant = create(:merchant, created_at: "2012-03-27 14:53:59 UTC")
+
+    get "/api/v1/merchants/find?id=#{merchant.id}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(merchant.name)
+
+    get "/api/v1/merchants/find?name=#{merchant.name}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(merchant.name)
+
+    get "/api/v1/merchants/find?created_at=#{merchant.created_at}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(merchant.name)
+
+    get "/api/v1/merchants/find?updated_at=#{merchant.updated_at}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(merchant.name)
+  end
+  xit 'allows a user to find all merchants with a multi finder' do
+    merchants = create_list(:merchant, 3)
+    duplicate_merchant = create(:merchant, name: merchants.first.name)
+
+    get "/api/v1/merchants/find_all?#{merchants.first.id}"
+    expect(response).to be_successful
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(merchant.first.name)
+
+    get "/api/v1/merchants/find_all?#{merchant.name}"
+    expect(response).to be_successful
+    body = JSON.parse(response.body)
+    expect(body.count).to eq(2)
+    expect(body["name"]).to eq(duplicate_merchant.name)
+  end
+  it 'allows a user to find a random merchant' do
+    merchants = create_list(:merchant, 3)
+
+    get "/api/v1/merchants/random"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(merchants.any? { |merchant| merchant[:id] == body["id"]}).to eq(true)
+  end
 end
