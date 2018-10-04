@@ -14,9 +14,11 @@ namespace :import do
       Invoice.create!(row.to_h)
     end
     CSV.foreach('./db/data/items.csv', headers: true) do |row|
+      row[:unit_price] = row[:unit_price].to_f / 100
       Item.create!(row.to_h)
     end
     CSV.foreach('./db/data/invoice_items.csv', headers: true) do |row|
+      row[:unit_price] = row[:unit_price].to_f / 100
       InvoiceItem.create!(row.to_h)
     end
     CSV.foreach('./db/data/transactions.csv', headers: true) do |row|
