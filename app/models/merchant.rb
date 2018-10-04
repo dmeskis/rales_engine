@@ -24,9 +24,9 @@ class Merchant < ApplicationRecord
     total.to_i
   end
 
-  def self.favorite_customer(merchant_id)
+  def self.favorite_customer(params)
     Customer.joins(:invoices, :transactions, :merchants)
-    .where("merchants.id = ? AND transactions.result = ?", merchant_id, 'success')
+    .where("merchants.id = ? AND transactions.result = ?", params["id"], 'success')
     .group("customers.id")
     .order(Arel.sql("COUNT(transactions.id) DESC"))
     .limit(1)

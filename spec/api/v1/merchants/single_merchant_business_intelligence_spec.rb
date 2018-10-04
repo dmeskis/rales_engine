@@ -47,7 +47,7 @@ describe 'merchant api' do
 
       favorite_customer = @customer_1
 
-      expect(favorite_customer).to eq(Merchant.favorite_customer(@merchant.id))
+      expect(favorite_customer).to eq(Merchant.favorite_customer("id" => @merchant.id))
     end
   end
 end

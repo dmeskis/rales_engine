@@ -36,7 +36,7 @@ RSpec.describe Merchant, type: :model do
                                              .to eq(@invoice_item_1.unit_price * @invoice_item_1.quantity)
     end
     it 'favorite_customer' do
-      expect(Merchant.favorite_customer(@merchant.id)).to eq(@customer_1)
+      expect(Merchant.favorite_customer({"id" => @merchant.id})).to eq(@customer_1)
     end
   end
 end
