@@ -56,27 +56,29 @@ describe 'merchants API' do
     expect(body.last["customer_id"]).to eq(customer.id)
   end
   it 'allows a user to find a merchant with a single finder' do
-    merchant = create(:merchant, created_at: "2017-01-01 00:00:00")
+    create_list(:merchant, 2)
+    merchant = create(:merchant, created_at: "2017-01-01 00:00:00", updated_at: "2017-01-02 00:00:00")
 
-    get "/api/v1/merchants/find?#{merchant.id}"
+    get "/api/v1/merchants/find?id=#{merchant.id}"
     expect(response).to be_successful
 
     body = JSON.parse(response.body)
     expect(body["name"]).to eq(merchant.name)
 
-    get "/api/v1/merchants/find?#{merchant.name}"
+    get "/api/v1/merchants/find?name=#{merchant.name}"
     expect(response).to be_successful
 
     body = JSON.parse(response.body)
     expect(body["name"]).to eq(merchant.name)
 
-    get "/api/v1/merchants/find?#{merchant.created_at}"
+    get "/api/v1/merchants/find?created_at=#{merchant.created_at}"
     expect(response).to be_successful
 
     body = JSON.parse(response.body)
+    binding.pry
     expect(body["created_at"]).to eq(merchant.created_at)
 
-    get "/api/v1/merchants/find?#{merchant.updated_at}"
+    get "/api/v1/merchants/find?updated_at=#{merchant.updated_at}"
     expect(response).to be_successful
 
     body = JSON.parse(response.body)
