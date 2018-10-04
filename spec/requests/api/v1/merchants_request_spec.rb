@@ -55,4 +55,25 @@ describe 'merchants API' do
     expect(body.last["merchant_id"]).to eq(merchant.id)
     expect(body.last["customer_id"]).to eq(customer.id)
   end
+  it 'allows a user to find a merchant with a single finder' do
+    merchant = create(:merchant)
+
+    get "/api/v1/merchants/find?#{merchant.id}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(merchant.name)
+
+    get "/api/v1/merchants/find?#{merchant.name}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(merchant.name)
+
+    get "/api/v1/merchants/find?#{merchant.name}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["name"]).to eq(merchant.name)
+  end
 end

@@ -6,14 +6,17 @@ Rails.application.routes.draw do
       resources :invoice_items, only: [:index, :show]
       resources :invoices, only: [:index, :show]
       resources :items, only: [:index, :show]
-      resources :merchants, only: [:index, :show]
       resources :transactions, only: [:index, :show]
       # Merchant Endpoints
+      get 'merchants/find', to: 'merchants/search#show'
       get 'merchants/:id/items', to: 'merchants/items#index'
       get 'merchants/:id/invoices', to: 'merchants/invoices#index'
+      resources :merchants, only: [:index, :show]
       # Merchant Business Intelligence
       get 'merchants/:id/revenue', to: 'merchants/revenue#show'
       get 'merchants/:id/favorite_customer', to: 'merchants/favorite_customer#show'
+
+
 
       # Transaction Endpoints
       get 'invoices/:id/transactions', to: 'invoices/transactions#index'
