@@ -23,5 +23,19 @@ describe 'invoices API' do
     expect(Invoice.count).to eq(1)
     expect(body["merchant_id"]).to eq(invoice.merchant_id)
   end
+  it 'sends a collection of associated transactions' do
+    invoice = create(:invoice)
+    transaction_1 = create(:transaction, invoice: invoice)
+    transaction_2 = create(:transaction, invoice: invoice)
 
+    get "/api/v1/invoices/#{invoice.id}/transactions"
+
+    expect(response).to be_successful
+
+    body= JSON.parse(response.body)
+    expect(body.count).to eq(2)
+
+    expect(body.first["credit_card_number"]).to eq(transaction_1.credit_card_number)
+    expect(body.last["credit_card_number"]).to eq(transaction_2.credit_card_number)
+  end
 end

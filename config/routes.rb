@@ -10,10 +10,13 @@ Rails.application.routes.draw do
       resources :transactions, only: [:index, :show]
       # Merchant Endpoints
       get 'merchants/:id/items', to: 'merchants/items#index'
-      get '/merchants/:id/invoices', to: 'merchants/invoices#index'
+      get 'merchants/:id/invoices', to: 'merchants/invoices#index'
       # Merchant Business Intelligence
       get 'merchants/:id/revenue', to: 'merchants/revenue#show'
       get 'merchants/:id/favorite_customer', to: 'merchants/favorite_customer#show'
+
+      # Transaction Endpoints
+      get 'invoices/:id/transactions', to: 'invoices/transactions#index'
     end
   end
 end
