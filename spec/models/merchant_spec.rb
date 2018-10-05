@@ -26,7 +26,7 @@ RSpec.describe Merchant, type: :model do
       @transaction_2 = create(:transaction, invoice: @invoice_2, result: "failed")
       @transaction_2 = create(:transaction, invoice: @invoice_3, result: "success")
     end
-    # xit 'total_revenue' do
+    # it 'total_revenue' do
     #   expect(Merchant.total_revenue({"id" => @merchant.id})).to eq({"revenue" => "#{{(@invoice_item_1.unit_price * @invoice_item_1.quantity +
     #                                                      @invoice_item_3.unit_price * @invoice_item_3.quantity).to_f }}")
     # end
