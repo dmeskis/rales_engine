@@ -6,7 +6,7 @@ class Api::V1::Merchants::SearchController < ApplicationController
   end
 
   def index
-    render json: Merchant.find_all(merchant_params)
+    render json: Merchant.where(merchant_params)
   end
 
 end

@@ -6,7 +6,7 @@ class Api::V1::Transactions::SearchController < ApplicationController
   end
 
   def index
-    render json: Transaction.find_all(transaction_params)
+    render json: Transaction.where(transaction_params)
   end
 
 end

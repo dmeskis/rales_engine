@@ -74,19 +74,30 @@ describe 'items API' do
     body = JSON.parse(response.body)
     expect(body["name"]).to eq(item.name)
   end
-  xit 'allows a user to find all items with a multi finder' do
+  it 'allows a user to find all items with a multi finder' do
     items = create_list(:item, 3)
-    duplicate_item = create(:item, name: items.first.name)
+    duplicate_item = create(:item, name: items.first.name, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-04-27 14:53:59 UTC")
 
     get "/api/v1/items/find_all?#{items.first.id}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
-    expect(body["name"]).to eq(item.first.name)
+    expect(body.last["name"]).to eq(duplicate_item.name)
 
-    get "/api/v1/items/find_all?#{item.name}"
+    get "/api/v1/items/find_all?#{items.first.name}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
-    expect(body.count).to eq(2)
-    expect(body["name"]).to eq(duplicate_item.name)
+    expect(body.first["name"]).to eq(duplicate_item.name)
+
+    get "/api/v1/items/find_all?created_at=#{duplicate_item.created_at}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body.last["name"]).to eq(duplicate_item.name)
+
+    get "/api/v1/items/find_all?updated_at=#{duplicate_item.updated_at}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body.first["name"]).to eq(duplicate_item.name)
   end
 end

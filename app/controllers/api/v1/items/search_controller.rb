@@ -6,7 +6,7 @@ class Api::V1::Items::SearchController < ApplicationController
   end
 
   def index
-    render json: Item.find_all(item_params)
+    render json: Item.multi_finder(item_params)
   end
 
 end
