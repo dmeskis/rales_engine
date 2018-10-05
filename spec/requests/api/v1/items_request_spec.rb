@@ -78,14 +78,16 @@ describe 'items API' do
     items = create_list(:item, 3)
     duplicate_item = create(:item, name: items.first.name, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-04-27 14:53:59 UTC")
 
-    get "/api/v1/items/find_all?#{items.first.id}"
+    get "/api/v1/items/find_all?id=#{items.first.id}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
+    expect(body.count).to eq(1)
     expect(body.last["name"]).to eq(duplicate_item.name)
 
-    get "/api/v1/items/find_all?#{items.first.name}"
+    get "/api/v1/items/find_all?name=#{items.first.name}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
+    expect(body.count).to eq(2)
     expect(body.first["name"]).to eq(duplicate_item.name)
 
     get "/api/v1/items/find_all?created_at=#{duplicate_item.created_at}"

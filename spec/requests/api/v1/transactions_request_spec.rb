@@ -61,19 +61,19 @@ describe 'transactions API' do
     body = JSON.parse(response.body)
     expect(body["credit_card_number"]).to eq(transaction.credit_card_number)
   end
-  xit 'allows a user to find all transactions with a multi finder' do
+  it 'allows a user to find all transactions with a multi finder' do
     transactions = create_list(:transaction, 3)
-    duplicate_transaction = create(:transaction)
+    duplicate_transaction = create(:transaction, credit_card_number: transactions.first.credit_card_number, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-04-27 14:53:59 UTC")
 
-    get "/api/v1/transactions/find_all?#{transactions.first.id}"
+    get "/api/v1/transactions/find_all?id=#{transactions.first.id}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
-    expect(body["credit_card_number"]).to eq(transaction.first.credit_card_number)
+    expect(body.first["credit_card_number"]).to eq(transactions.first.credit_card_number)
 
-    get "/api/v1/transactions/find_all?#{transaction.name}"
+    get "/api/v1/transactions/find_all?credit_card_number=#{duplicate_transaction.credit_card_number}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
     expect(body.count).to eq(2)
-    expect(body["credit_card_number"]).to eq(duplicate_transaction.credit_card_number)
+    expect(body.first["credit_card_number"]).to eq(duplicate_transaction.credit_card_number)
   end
 end

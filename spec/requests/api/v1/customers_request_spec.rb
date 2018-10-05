@@ -81,7 +81,7 @@ describe 'customers API' do
   end
   xit 'allows a user to find all customers with a multi finder' do
     customers = create_list(:customer, 3)
-    duplicate_customer = create(:customer)
+    duplicate_customer = create(:customer, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-04-27 14:53:59 UTC")
 
     get "/api/v1/customers/find_all?#{customers.first.id}"
     expect(response).to be_successful
