@@ -2,7 +2,7 @@ class Api::V1::Customers::SearchController < ApplicationController
   include CustomerParams
 
   def show
-    render json: Customer.find_by(customer_params)
+    render json: Customer.single_finder(customer_params)
   end
 
   def index

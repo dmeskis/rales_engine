@@ -35,7 +35,7 @@ describe 'transactions API' do
   end
   it 'allows a user to find an transaction with a single finder' do
     create_list(:transaction, 2)
-    transaction = create(:transaction)
+    transaction = create(:transaction, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
 
     get "/api/v1/transactions/find?id=#{transaction.id}"
     expect(response).to be_successful

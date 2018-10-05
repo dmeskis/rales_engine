@@ -48,7 +48,7 @@ describe 'items API' do
   end
   it 'allows a user to find an item with a single finder' do
     create_list(:item, 2)
-    item = create(:item)
+    item = create(:item, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
 
     get "/api/v1/items/find?id=#{item.id}"
     expect(response).to be_successful

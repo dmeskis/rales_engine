@@ -2,7 +2,7 @@ class Api::V1::InvoiceItems::SearchController < ApplicationController
   include InvoiceItemParams
 
   def show
-    render json: InvoiceItem.find_by(invoice_item_params)
+    render json: InvoiceItem.single_finder(invoice_item_params)
   end
 
   def index

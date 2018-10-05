@@ -53,7 +53,7 @@ describe 'customers API' do
   end
   it 'allows a user to find a customer with a single finder' do
     create_list(:customer, 2)
-    customer = create(:customer)
+    customer = create(:customer, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
 
     get "/api/v1/customers/find?id=#{customer.id}"
     expect(response).to be_successful

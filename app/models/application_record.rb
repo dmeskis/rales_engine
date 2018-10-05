@@ -5,7 +5,7 @@ class ApplicationRecord < ActiveRecord::Base
     key = params.keys.first
     if key == 'created_at' || key == 'updated_at'
       date = DateTime.parse(params[key]).in_time_zone
-      where(key => date).limit(1).first
+      find_by(key => date)
     else
       find_by(params)
     end

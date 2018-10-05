@@ -92,7 +92,7 @@ describe 'invoices API' do
   end
   it 'allows a user to find an invoice with a single finder' do
     create_list(:invoice, 2)
-    invoice = create(:invoice)
+    invoice = create(:invoice, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
 
     get "/api/v1/invoices/find?id=#{invoice.id}"
     expect(response).to be_successful
