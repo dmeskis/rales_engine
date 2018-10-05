@@ -45,4 +45,47 @@ describe 'invoice items API' do
     body = JSON.parse(response.body)
     expect(body["name"]).to eq(item.name)
   end
+  it 'allows a user to find an invoice item with a single finder' do
+    create_list(:invoice_item, 2)
+    invoice_item = create(:invoice_item)
+
+    get "/api/v1/invoice_items/find?id=#{invoice_item.id}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["quantity"]).to eq(invoice_item.quantity)
+
+    get "/api/v1/invoice_items/find?quantity=#{invoice_item.quantity}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["quantity"]).to eq(invoice_item.quantity)
+
+    get "/api/v1/invoice_items/find?created_at=#{invoice_item.created_at}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["quantity"]).to eq(invoice_item.quantity)
+
+    get "/api/v1/invoice_items/find?updated_at=#{invoice_item.updated_at}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["quantity"]).to eq(invoice_item.quantity)
+  end
+  xit 'allows a user to find all invoice_items with a multi finder' do
+    invoice_items = create_list(:invoice_item, 3)
+    duplicate_invoice_item = create(:invoice_item)
+
+    get "/api/v1/invoice_items/find_all?#{invoice_items.first.id}"
+    expect(response).to be_successful
+    body = JSON.parse(response.body)
+    expect(body["quantity"]).to eq(invoice_item.first.quantity)
+
+    get "/api/v1/invoice_items/find_all?#{invoice_item.name}"
+    expect(response).to be_successful
+    body = JSON.parse(response.body)
+    expect(body.count).to eq(2)
+    expect(body["quantity"]).to eq(duplicate_invoice_item.quantity)
+  end
 end

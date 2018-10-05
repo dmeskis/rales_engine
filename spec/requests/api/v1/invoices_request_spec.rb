@@ -90,4 +90,47 @@ describe 'invoices API' do
     body= JSON.parse(response.body)
     expect(body["name"]).to eq(invoice.merchant.name)
   end
+  it 'allows a user to find an invoice with a single finder' do
+    create_list(:invoice, 2)
+    invoice = create(:invoice)
+
+    get "/api/v1/invoices/find?id=#{invoice.id}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["status"]).to eq(invoice.status)
+
+    get "/api/v1/invoices/find?merchant_id=#{invoice.merchant_id}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["status"]).to eq(invoice.status)
+
+    get "/api/v1/invoices/find?created_at=#{invoice.created_at}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["status"]).to eq(invoice.status)
+
+    get "/api/v1/invoices/find?updated_at=#{invoice.updated_at}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body["status"]).to eq(invoice.status)
+  end
+  xit 'allows a user to find all invoices with a multi finder' do
+    invoices = create_list(:invoice, 3)
+    duplicate_invoice = create(:invoice)
+
+    get "/api/v1/invoices/find_all?#{invoices.first.id}"
+    expect(response).to be_successful
+    body = JSON.parse(response.body)
+    expect(body["status"]).to eq(invoice.first.status)
+
+    get "/api/v1/invoices/find_all?#{invoice.name}"
+    expect(response).to be_successful
+    body = JSON.parse(response.body)
+    expect(body.count).to eq(2)
+    expect(body["status"]).to eq(duplicate_invoice.status)
+  end
 end
