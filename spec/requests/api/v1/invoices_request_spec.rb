@@ -92,7 +92,7 @@ describe 'invoices API' do
   end
   it 'allows a user to find an invoice with a single finder' do
     create_list(:invoice, 2)
-    invoice = create(:invoice)
+    invoice = create(:invoice, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
 
     get "/api/v1/invoices/find?id=#{invoice.id}"
     expect(response).to be_successful
@@ -118,19 +118,19 @@ describe 'invoices API' do
     body = JSON.parse(response.body)
     expect(body["status"]).to eq(invoice.status)
   end
-  xit 'allows a user to find all invoices with a multi finder' do
+  it 'allows a user to find all invoices with a multi finder' do
     invoices = create_list(:invoice, 3)
-    duplicate_invoice = create(:invoice)
+    duplicate_invoice = create(:invoice, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-04-27 14:53:59 UTC")
 
-    get "/api/v1/invoices/find_all?#{invoices.first.id}"
+    get "/api/v1/invoices/find_all?id=#{invoices.first.id}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
-    expect(body["status"]).to eq(invoice.first.status)
+    expect(body.count).to eq(1)
+    expect(body.first["status"]).to eq(invoices.first.status)
 
-    get "/api/v1/invoices/find_all?#{invoice.name}"
+    get "/api/v1/invoices/find_all?status=#{duplicate_invoice.status}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
-    expect(body.count).to eq(2)
-    expect(body["status"]).to eq(duplicate_invoice.status)
+    expect(body.first["status"]).to eq(duplicate_invoice.status)
   end
 end
