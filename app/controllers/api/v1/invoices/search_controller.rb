@@ -6,7 +6,7 @@ class Api::V1::Invoices::SearchController < ApplicationController
   end
 
   def index
-    render json: Invoice.where(invoice_params)
+    render json: Invoice.multi_finder(invoice_params)
   end
 
 end

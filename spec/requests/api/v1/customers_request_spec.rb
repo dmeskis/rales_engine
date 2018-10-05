@@ -79,19 +79,31 @@ describe 'customers API' do
     body = JSON.parse(response.body)
     expect(body["first_name"]).to eq(customer.first_name)
   end
-  xit 'allows a user to find all customers with a multi finder' do
+  it 'allows a user to find all customers with a multi finder' do
     customers = create_list(:customer, 3)
-    duplicate_customer = create(:customer, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-04-27 14:53:59 UTC")
+    duplicate_customer = create(:customer, first_name: customers.first.first_name, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-04-27 14:53:59 UTC")
 
-    get "/api/v1/customers/find_all?#{customers.first.id}"
+    get "/api/v1/customers/find_all?id=#{customers.first.id}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
-    expect(body["first_name"]).to eq(customer.first.first_name)
+    expect(body.first["first_name"]).to eq(customers.first.first_name)
 
-    get "/api/v1/customers/find_all?#{customer.name}"
+    get "/api/v1/customers/find_all?first_name=#{duplicate_customer.first_name}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
     expect(body.count).to eq(2)
-    expect(body["first_name"]).to eq(duplicate_customer.first_name)
+    expect(body.first["first_name"]).to eq(duplicate_customer.first_name)
+
+    get "/api/v1/customers/find_all?created_at=#{duplicate_customer.created_at}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body.first["first_name"]).to eq(duplicate_customer.first_name)
+
+    get "/api/v1/customers/find_all?updated_at=#{duplicate_customer.updated_at}"
+    expect(response).to be_successful
+
+    body = JSON.parse(response.body)
+    expect(body.first["first_name"]).to eq(duplicate_customer.first_name)
   end
 end

@@ -6,7 +6,7 @@ class Api::V1::Customers::SearchController < ApplicationController
   end
 
   def index
-    render json: Customer.where(customer_params)
+    render json: Customer.multi_finder(customer_params)
   end
 
 end
