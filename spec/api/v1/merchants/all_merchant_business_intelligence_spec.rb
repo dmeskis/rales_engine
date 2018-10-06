@@ -77,5 +77,14 @@ describe 'merchant api' do
       expect(body.count).to eq(quantity)
 
     end
+    it 'returns total revenue for all merchants by x date' do
+      get "/api/v1/merchants/revenue?date=#{@invoice_1.created_at}"
+
+      expect(response).to be_successful
+
+      body = JSON.parse(response.body)
+      revenue = Merchant.all_total_revenue_by_date({"date" => @invoice_1.created_at})
+      expect(body.count).to eq(1)
+    end
   end
 end

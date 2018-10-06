@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get 'merchants/:id/items', to: 'merchants/items#index'
       get 'merchants/:id/invoices', to: 'merchants/invoices#index'
       # Merchant Business Intelligence
+      get 'merchants/revenue', to: 'merchants/revenue#index'
       get 'merchants/most_revenue', to: 'merchants/most_revenue#index'
       get 'merchants/most_items', to: 'merchants/most_items#index'
       get 'merchants/:id/revenue', to: 'merchants/revenue#show'
