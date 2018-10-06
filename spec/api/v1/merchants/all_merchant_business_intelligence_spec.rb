@@ -55,15 +55,26 @@ describe 'merchant api' do
   end
   describe 'for all merchants' do
     it 'returns top x merchants by total revenue' do
-
-      get "/api/v1/merchants/most_revenue?quantity=5"
+      quantity = 5
+      get "/api/v1/merchants/most_revenue?quantity=#{quantity}"
 
       expect(response).to be_successful
 
       body = JSON.parse(response.body)
-      merchants = Merchant.most_revenue()
-      expect(body.count).to eq(5)
+      merchants = Merchant.most_revenue(quantity)
+      expect(body.count).to eq(quantity)
       # expect(body).to eq(merchants)
+
+    end
+    it 'returns top x merchants by total number of items' do
+      quantity = 5
+      get "/api/v1/merchants/most_items?quantity=#{quantity}"
+
+      expect(response).to be_successful
+
+      body = JSON.parse(response.body)
+      merchants = Merchant.most_items(quantity)
+      expect(body.count).to eq(quantity)
 
     end
   end
