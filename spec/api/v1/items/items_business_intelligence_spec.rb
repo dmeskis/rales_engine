@@ -30,6 +30,15 @@ describe 'items API' do
     expect(response).to be_successful
 
     items = JSON.parse(response.body)
+
+    expect(items.count).to eq(5)
+  end
+  it 'returns the top x items ranked by total number sold' do
+    get '/api/v1/items/most_items?quantity=5'
+
+    expect(response).to be_successful
+
+    items = JSON.parse(response.body)
     binding.pry
     expect(items.count).to eq(5)
   end

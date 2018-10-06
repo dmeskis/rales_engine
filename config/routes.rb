@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       get 'items/:id/merchant', to: 'items/merchants#show'
       # Items Business Intelligence
       get 'items/most_revenue', to: 'items/revenue#index'
+      get 'items/most_items', to: 'items/most_items#index'
       resources :items, only: [:index, :show]
 
       # Transactions Endpoints
