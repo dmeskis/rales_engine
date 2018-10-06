@@ -24,4 +24,8 @@ class Item < ApplicationRecord
     .order("SUM(invoice_items.quantity) DESC")
     .limit(quantity)
   end
+
+  def self.best_day(params)
+    binding.pry
+  end
 end

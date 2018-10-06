@@ -41,4 +41,11 @@ describe 'items API' do
     items = JSON.parse(response.body)
     expect(items.count).to eq(5)
   end
+  it 'returns the date with the most sales for the given item' do
+    get "/api/v1/items/#{Item.first.id}/best_day"
+
+    expect(response.to be_successful)
+    body = JSON.parase(response.body)
+    expect(body["date"]).to eq(Item.best_day)
+  end
 end
