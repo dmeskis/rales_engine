@@ -8,10 +8,12 @@ Rails.application.routes.draw do
       get 'merchants/random', to: 'merchants/random#show'
       get 'merchants/:id/items', to: 'merchants/items#index'
       get 'merchants/:id/invoices', to: 'merchants/invoices#index'
-      resources :merchants, only: [:index, :show]
       # Merchant Business Intelligence
+      get 'merchants/most_revenue', to: 'merchants/most_revenue#index'
+      get 'merchants/most_items', to: 'merchants/most_items#index'
       get 'merchants/:id/revenue', to: 'merchants/revenue#show'
       get 'merchants/:id/favorite_customer', to: 'merchants/favorite_customer#show'
+      resources :merchants, only: [:index, :show]
 
 
 

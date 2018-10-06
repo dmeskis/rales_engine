@@ -6,6 +6,7 @@ module MerchantParams
                   :name,
                   :created_at,
                   :updated_at,
-                  :date)
+                  :date,
+                  :quantity)
   end
 end

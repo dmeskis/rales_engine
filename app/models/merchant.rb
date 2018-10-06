@@ -5,6 +5,24 @@ class Merchant < ApplicationRecord
   has_many :customers, through: :invoices
   has_many :invoice_items, through: :invoices
 
+  def self.most_revenue(quantity = 5)
+    select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS total_revenue")
+    .joins(invoices: [:invoice_items, :transactions])
+    .where(transactions: {result: 'success'})
+    .group("merchants.id")
+    .order("total_revenue DESC")
+    .limit(quantity)
+  end
+
+  def self.most_items(quantity = 5)
+    select("merchants.*")
+    .joins(invoices: [:invoice_items, :transactions])
+    .where(transactions: {result: 'success'})
+    .group("merchants.id")
+    .order("SUM(invoice_items.quantity) DESC")
+    .limit(quantity)
+  end
+
   def self.total_revenue(params)
     total =  joins(invoices: [:invoice_items, :transactions])
               .where(transactions: {result: 'success' })
