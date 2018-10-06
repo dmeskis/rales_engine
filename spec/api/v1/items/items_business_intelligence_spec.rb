@@ -39,7 +39,6 @@ describe 'items API' do
     expect(response).to be_successful
 
     items = JSON.parse(response.body)
-    binding.pry
     expect(items.count).to eq(5)
   end
 end

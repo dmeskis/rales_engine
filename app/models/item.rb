@@ -21,7 +21,7 @@ class Item < ApplicationRecord
     joins(:invoice_items, :transactions)
     .where(transactions: {result: 'success'})
     .group("items.id")
-    .order("SUM(invoice_items.quantity)")
+    .order("SUM(invoice_items.quantity) DESC")
     .limit(quantity)
   end
 end
