@@ -83,20 +83,19 @@ describe 'merchants API' do
     body = JSON.parse(response.body)
     expect(body["name"]).to eq(merchant.name)
   end
-  xit 'allows a user to find all merchants with a multi finder' do
+  it 'allows a user to find all merchants with a multi finder' do
     merchants = create_list(:merchant, 3)
     duplicate_merchant = create(:merchant, name: merchants.first.name)
 
     get "/api/v1/merchants/find_all?#{merchants.first.id}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
-    expect(body["name"]).to eq(merchant.first.name)
+    expect(body.first["name"]).to eq(merchants.first.name)
 
-    get "/api/v1/merchants/find_all?#{merchant.name}"
+    get "/api/v1/merchants/find_all?#{merchants.first.name}"
     expect(response).to be_successful
     body = JSON.parse(response.body)
-    expect(body.count).to eq(2)
-    expect(body["name"]).to eq(duplicate_merchant.name)
+    expect(body.first["name"]).to eq(duplicate_merchant.name)
   end
   it 'allows a user to find a random merchant' do
     merchants = create_list(:merchant, 3)
