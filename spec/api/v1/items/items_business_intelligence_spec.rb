@@ -46,6 +46,6 @@ describe 'items API' do
 
     expect(response).to be_successful
     body = JSON.parse(response.body)
-    expect(body.first["date"]).to eq(Item.best_day("id" => Item.first.id))
+    expect(body["best_day"]).to eq(Item.best_day("id" => Item.first.id))
   end
 end
