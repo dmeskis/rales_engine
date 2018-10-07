@@ -5,4 +5,5 @@ class InvoiceItem < ApplicationRecord
                         :quantity,
                         :item_id,
                         :invoice_id
+
 end

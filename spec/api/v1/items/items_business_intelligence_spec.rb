@@ -44,8 +44,8 @@ describe 'items API' do
   it 'returns the date with the most sales for the given item' do
     get "/api/v1/items/#{Item.first.id}/best_day"
 
-    expect(response.to be_successful)
-    body = JSON.parase(response.body)
-    expect(body["date"]).to eq(Item.best_day)
+    expect(response).to be_successful
+    body = JSON.parse(response.body)
+    expect(body.first["date"]).to eq(Item.best_day("id" => Item.first.id))
   end
 end

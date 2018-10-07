@@ -25,7 +25,15 @@ class Item < ApplicationRecord
     .limit(quantity)
   end
 
-  def self.best_day(params)
-    binding.pry
-  end
+  # def self.best_day(params)
+  #   Invoice.select("invoices.*, SUM(invoice_items.quantity) AS items_sold")
+  #          .joins(:invoice_items, :transactions)
+  #          .where(transactions: {result: 'success'})
+  #          .where(invoice_items: { item_id: params["id"] })
+  #          .group(:id)
+  #          .order("items_sold DESC")
+  #          .limit(1)
+  #          .first
+  #          .created_at
+  # end
 end
