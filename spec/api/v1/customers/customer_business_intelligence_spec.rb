@@ -54,37 +54,14 @@ describe 'merchant api' do
     @transaction_10 = create(:transaction, invoice: @invoice_10, result: "failed")
   end
   describe 'for all merchants' do
-    it 'returns top x merchants by total revenue' do
-      quantity = 5
-      get "/api/v1/merchants/most_revenue?quantity=#{quantity}"
+    it 'returns favorite merchant by most transactions' do
+      get "/api/v1/customers/#{@invoice_1.customer.id}/favorite_merchant"
 
       expect(response).to be_successful
 
       body = JSON.parse(response.body)
-      merchants = Merchant.most_revenue(quantity)
-      expect(body.count).to eq(quantity)
-      # expect(body).to eq(merchants)
-
-    end
-    it 'returns top x merchants by total number of items' do
-      quantity = 5
-      get "/api/v1/merchants/most_items?quantity=#{quantity}"
-
-      expect(response).to be_successful
-
-      body = JSON.parse(response.body)
-      merchants = Merchant.most_items(quantity)
-      expect(body.count).to eq(quantity)
-
-    end
-    it 'returns total revenue for all merchants by x date' do
-      get "/api/v1/merchants/revenue?date=#{@invoice_1.created_at}"
-
-      expect(response).to be_successful
-
-      body = JSON.parse(response.body)
-      revenue = Merchant.all_total_revenue_by_date({"date" => @invoice_1.created_at})
-      expect(body.count).to eq(1)
+      merchant = Customer.favorite_merchant("id" => @invoice_1.customer.id)
+      expect(body["name"]).to eq(merchant.name)
     end
   end
 end
