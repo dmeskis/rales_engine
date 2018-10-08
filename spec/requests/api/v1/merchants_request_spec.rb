@@ -96,6 +96,7 @@ describe 'merchants API' do
     expect(response).to be_successful
     body = JSON.parse(response.body)
     expect(body.first["name"]).to eq(duplicate_merchant.name)
+    expect(body.last["name"]).to eq(duplicate_merchant.name)
   end
   it 'allows a user to find a random merchant' do
     merchants = create_list(:merchant, 3)

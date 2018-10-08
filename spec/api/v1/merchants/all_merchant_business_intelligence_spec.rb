@@ -86,5 +86,14 @@ describe 'merchant api' do
       revenue = Merchant.all_total_revenue_by_date({"date" => @invoice_1.created_at})
       expect(body.count).to eq(1)
     end
+    it 'returns customers with pending invoices' do
+      get "/api/v1/merchants/#{@merchant_1.id}/customers_with_pending_invoices"
+
+      expect(response).to be_successful
+
+      body = JSON.parse(response.body)
+      # revenue = Merchant.all_total_revenue_by_date({"date" => @invoice_1.created_at})
+      expect(body.count).to eq(1)
+    end
   end
 end
